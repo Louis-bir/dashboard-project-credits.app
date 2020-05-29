@@ -12,14 +12,15 @@ import streamlit as st
 
 ###################### TITLE AND INTRO ######################
 
-# Text/Title.
-st.title("Dashboard  Projet 7 Louis Birenholz")
+# Title.
+st.title("Dashboard  intéractif : Détection de défaut de paiement")
 
 # Header & Subheader.
-st.header("Dashboard intéractif P7")
+st.header("Projet 7 - Implémenter un modèle de scoring")
 
 # Markdown.
-st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un client. Il permet une visualisation dynamique de certains indicateurs")
+st.markdown('Autor : Louis Birenholz')
+st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un client. Il permet une visualisation dynamique de certains indicateurs ainsi que le calcul nouvelle probabilité de défaut.")
 
 ################### READ DATA ########################
 
@@ -33,7 +34,7 @@ df = load_data_brute()
 
 @st.cache
 def load_data():
-	data = pd.read_csv(r'C:\Users\Louis\Projet 7\df_dashboard.csv')
+	data = pd.read_csv(r'C:\Users\Louis\Projet 7\df_dashboard2.csv')
 	return data
 
 df_train_imputed = load_data()
@@ -56,7 +57,9 @@ if (id_client == 'x'):
 # Entrer de l'ID client et informations client.
 
 df_id_client = df[df['SK_ID_CURR']==int(id_client)]
-if (df_id_client.shape[0] == 0):
+df_id_client2 = df_train_imputed[df_train_imputed['SK_ID_CURR']==int(id_client)]
+
+if (df_id_client2.shape[0] == 0):
 	st.error('Merci de rentrer un ID client valide')
 
 df_info_client = df_id_client.loc[:,['AMT_CREDIT', 'NAME_CONTRACT_TYPE', 'AMT_INCOME_TOTAL', 'DAYS_BIRTH', 'DAYS_EMPLOYED']]
@@ -205,13 +208,9 @@ st.plotly_chart(fig3)
 # Nouvelle prédiction
 new_pred = client_to_predict.copy()
 
-st.write(new_pred)
-
 new_pred['EXT_SOURCE_1'] = new_source1
 new_pred['EXT_SOURCE_2'] = new_source2
 new_pred['EXT_SOURCE_3'] = new_source3
-
-st.write(new_pred)
 
 prediction2 = model_train.predict_proba(new_pred)[:,1][0].round(2)
 
