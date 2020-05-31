@@ -39,12 +39,11 @@ def load_data():
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
-df_train_imputed = load_data()
-df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) for x in df_train_imputed.columns]
+df_prob = load_data()
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
 
-with open(r"C:\Users\Louis\dashboard-project-credits.app\pretrainedLGBM.pickle", 'rb') as file : model_train = pickle.load(file)
+#with open(r"C:\Users\Louis\dashboard-project-credits.app\pretrainedLGBM.pickle", 'rb') as file : model_train = pickle.load(file)
 
 ##################### DASHBOARD ################################
 
@@ -59,7 +58,7 @@ if (id_client == 'x'):
 # Entrer de l'ID client et informations client.
 
 df_id_client = df[df['SK_ID_CURR']==int(id_client)]
-df_id_client2 = df_train_imputed[df_train_imputed['SK_ID_CURR']==int(id_client)]
+df_id_client2 = df_prob[df_prob['SK_ID_CURR']==int(id_client)]
 
 if (df_id_client2.shape[0] == 0):
 	st.error('Merci de rentrer un ID client valide')
@@ -82,9 +81,9 @@ new_source2 = st.sidebar.slider('Source EXT 2', 0.0, 1.0, np.array(df_id_client[
 new_source3 = st.sidebar.slider('Source EXT 3', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_3'])[0],  0.001) 
 
 # Predict.
-mask_id = (df_train_imputed['SK_ID_CURR'] == int(id_client))
-client_to_predict = df_train_imputed[mask_id].iloc[:,2:]
-prediction = model_train.predict_proba(client_to_predict)[:,1][0].round(2)
+mask_id = (df_prob['SK_ID_CURR'] == int(id_client))
+client_to_predict = df_prob[mask_id]['Proba']
+prediction = np.array(client_to_predict)[0].round(2)
 
 st.subheader('Seuil de défaillance retenu : 0.23')
 st.subheader('Probabilité de défaillance : {}'.format(prediction))
@@ -206,16 +205,3 @@ fig3.update_yaxes(range=[-0.1, 2.9])
 
 
 st.plotly_chart(fig3)
-
-# Nouvelle prédiction
-new_pred = client_to_predict.copy()
-
-# Preprocessing.
-
-new_pred['EXT_SOURCE_1'] = new_source1
-new_pred['EXT_SOURCE_2'] = new_source2
-new_pred['EXT_SOURCE_3'] = new_source3
-
-prediction2 = model_train.predict_proba(new_pred)[:,1][0].round(2)
-
-st.subheader('Nouvelle probabilité de défaillance : {}'.format(prediction2))
