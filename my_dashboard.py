@@ -20,21 +20,23 @@ st.header("Projet 7 - Implémenter un modèle de scoring")
 
 # Markdown.
 st.markdown('Autor : Louis Birenholz')
-st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un client. Il permet une visualisation dynamique de certains indicateurs ainsi que le calcul nouvelle probabilité de défaut.")
+st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un client. Il permet une visualisation dynamique de certains indicateurs ainsi que le calcul d'une nouvelle probabilité de défaut.")
 
 ################### READ DATA ########################
 
 # Loading data.
 @st.cache
 def load_data_brute():
-	data = pd.read_csv(r"C:\Users\Louis\Projet 7\df_brute.csv")
+	url = "https://raw.githubusercontent.com/Louis-bir/dashboard-project-credits.app/master/df_brute.csv"
+	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
 df = load_data_brute()
 
 @st.cache
 def load_data():
-	data = pd.read_csv(r'C:\Users\Louis\Projet 7\df_dashboard2.csv')
+	url = "https://raw.githubusercontent.com/Louis-bir/dashboard-project-credits.app/master/df_dashboard2.csv"
+	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
 df_train_imputed = load_data()
@@ -42,7 +44,7 @@ df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) 
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
 
-with open(r"C:\Users\Louis\Projet 7\MonModel_lgbm.pickle", 'rb') as file : model_train = pickle.load(file)
+with open(r"C:\Users\Louis\dashboard-project-credits.app\pretrainedLGBM.pickle", 'rb') as file : model_train = pickle.load(file)
 
 ##################### DASHBOARD ################################
 
@@ -207,6 +209,8 @@ st.plotly_chart(fig3)
 
 # Nouvelle prédiction
 new_pred = client_to_predict.copy()
+
+# Preprocessing.
 
 new_pred['EXT_SOURCE_1'] = new_source1
 new_pred['EXT_SOURCE_2'] = new_source2
