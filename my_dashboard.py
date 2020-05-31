@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import pickle5 as pickle
+import scipy
 
 import plotly
 import plotly.graph_objects as go
