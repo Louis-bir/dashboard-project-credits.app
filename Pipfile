@@ -10,6 +10,7 @@ numpy = "*"
 pickle5 = "*"
 plotly = "*"
 scipy = "*"
+lightgbm = "*"
 
 [dev-packages]
 

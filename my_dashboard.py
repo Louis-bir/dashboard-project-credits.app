@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 import plotly.figure_factory as ff
 
 import streamlit as st
+import lightgbm
 
 ###################### TITLE AND INTRO ######################
 
