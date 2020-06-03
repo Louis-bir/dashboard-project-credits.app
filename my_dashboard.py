@@ -82,7 +82,6 @@ st.sidebar.header("Sliders")
 new_source1 = st.sidebar.slider('Source EXT 1', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_1'])[0], 0.001) 
 new_source2 = st.sidebar.slider('Source EXT 2', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_2'])[0],  0.001) 
 new_source3 = st.sidebar.slider('Source EXT 3', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_3'])[0],  0.001) 
-new_source4 = st.sidebar.slider('DAYS_EMPLOYED', 0.0, 18000.0, np.array(df_id_client['DAYS_EMPLOYED'])[0],  0.001)
 
 # Predict.
 mask_id = (df_train_imputed['SK_ID_CURR'] == int(id_client))
@@ -223,7 +222,6 @@ def standard_min_max_scaler(name_feature, val):
 new_pred['EXT_SOURCE_1'] = standard_min_max_scaler('EXT_SOURCE_1', new_source1)
 new_pred['EXT_SOURCE_2'] = standard_min_max_scaler('EXT_SOURCE_2', new_source2)
 new_pred['EXT_SOURCE_3'] = standard_min_max_scaler('EXT_SOURCE_3', new_source3)
-new_pred['DAYS_EMPLOYED'] = standard_min_max_scaler('DAYS_EMPLOYED', new_source4)
 
 prediction2 = model_train.predict_proba(new_pred)[:,1][0].round(2)
 
