@@ -51,7 +51,7 @@ with open('./pretrainedLGBM.pickle', 'rb') as file : model_train = pickle.load(f
 ##################### DASHBOARD ################################
 
 # Side page.
-st.sidebar.header("Id client")
+st.sidebar.header("ID client")
 
 id_client = st.sidebar.text_input('ID client', 'x')
 
@@ -82,6 +82,7 @@ st.sidebar.header("Sliders")
 new_source1 = st.sidebar.slider('Source EXT 1', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_1'])[0], 0.001) 
 new_source2 = st.sidebar.slider('Source EXT 2', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_2'])[0],  0.001) 
 new_source3 = st.sidebar.slider('Source EXT 3', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_3'])[0],  0.001) 
+new_source4 = st.sidebar.slider('DAYS_EMPLOYED', 0.0, 18000.0, np.array(df_id_client['DAYS_EMPLOYED'])[0],  0.001)
 
 # Predict.
 mask_id = (df_train_imputed['SK_ID_CURR'] == int(id_client))
@@ -209,14 +210,20 @@ fig3.update_yaxes(range=[-0.1, 2.9])
 
 st.plotly_chart(fig3)
 
-# Nouvelle prédiction
+######################## NOUVELLE PREDICTION ####################################
+
 new_pred = client_to_predict.copy()
 
 # Preprocessing.
+def standard_min_max_scaler(name_feature, val):
 
-new_pred['EXT_SOURCE_1'] = new_source1
-new_pred['EXT_SOURCE_2'] = new_source2
-new_pred['EXT_SOURCE_3'] = new_source3
+	value_standard =  (val - df[name_feature].min())/(df[name_feature].max()-df[name_feature].min()) 
+	return value_standard
+
+new_pred['EXT_SOURCE_1'] = standard_min_max_scaler('EXT_SOURCE_1', new_source1)
+new_pred['EXT_SOURCE_2'] = standard_min_max_scaler('EXT_SOURCE_2', new_source2)
+new_pred['EXT_SOURCE_3'] = standard_min_max_scaler('EXT_SOURCE_3', new_source3)
+new_pred['DAYS_EMPLOYED'] = standard_min_max_scaler('DAYS_EMPLOYED', new_source4)
 
 prediction2 = model_train.predict_proba(new_pred)[:,1][0].round(2)
 
