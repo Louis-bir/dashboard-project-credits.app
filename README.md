@@ -1,7 +1,9 @@
-# dashboard-project-credits.app
-Interactive dashboard with Streamlit
+# Déploiement d'un dashboard intéractif : Projet Overview
+Ce dashboard ...
 
-Ce projet consistait en le déploiement d'un dashboard intéractif.
+
+
+
 
 
 # Required Files
