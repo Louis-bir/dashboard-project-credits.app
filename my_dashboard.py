@@ -46,7 +46,7 @@ df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) 
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
 
-with open('./pretrainedLGBM.pickle', 'rb') as file : model_train = pickle.load(file)
+with open('./dummy.pkl', 'rb') as file : model_train = pickle.load(file)
 
 ##################### DASHBOARD ################################
 
@@ -79,9 +79,9 @@ int(df_info_client['AMT_CREDIT'])
 
 # Sliders on side page.
 st.sidebar.header("Sliders")
-new_source1 = st.sidebar.slider('Source EXT 1', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_1'])[0], 0.001) 
-new_source2 = st.sidebar.slider('Source EXT 2', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_2'])[0],  0.001) 
-new_source3 = st.sidebar.slider('Source EXT 3', 0.0, 1.0, np.array(df_id_client['EXT_SOURCE_3'])[0],  0.001) 
+new_source1 = st.sidebar.slider('Source EXT 1', 0.0, 1.0, float(np.array(df_id_client['EXT_SOURCE_1'])[0]), 0.001) 
+new_source2 = st.sidebar.slider('Source EXT 2', 0.0, 1.0, float(np.array(df_id_client['EXT_SOURCE_2'])[0]),  0.001) 
+new_source3 = st.sidebar.slider('Source EXT 3', 0.0, 1.0, float(np.array(df_id_client['EXT_SOURCE_3'])[0]),  0.001) 
 
 # Predict.
 mask_id = (df_train_imputed['SK_ID_CURR'] == int(id_client))
