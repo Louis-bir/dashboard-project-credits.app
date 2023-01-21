@@ -30,7 +30,8 @@ def load_data_brute():
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
-df = load_data_brute()
+#df = load_data_brute()
+df = pd.read_csv("df_brute.csv")
 
 @st.cache
 def load_data():
@@ -38,7 +39,8 @@ def load_data():
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
-df_train_imputed = load_data()
+#df_train_imputed = load_data()
+df_train_imputed = pd.read_csv("df_dashboard2.csv")
 df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) for x in df_train_imputed.columns]
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
@@ -69,7 +71,7 @@ if id_client != 0:
 			st.error('Merci de rentrer un ID client valide')
 
 		# Format the input DataFrame.
-		df_info_client = df_id_client.copy(deep=True)
+		df_info_client = df_id_client.iloc[:,1:-4]
 		df_info_client.index = ['Information']
 
 		st.success('Informations client : ')
@@ -108,7 +110,7 @@ if id_client != 0:
 								y=[0, 20], mode="lines", name="Client's credit",
 								line=go.scatter.Line(color="red"))
 
-		trace1 = go.Histogram(x=-df['DAYS_EMPLOYED'], 
+		trace1 = go.Histogram(x=df['DAYS_EMPLOYED'], 
 							  name='Days Employed',
 							  xbins=dict(size=500),
 							  marker_color='#37AA9C',
@@ -136,7 +138,7 @@ if id_client != 0:
 
 
 		# Indicator
-		st.error('Autres indicateurs :')
+		st.success('Autres indicateurs :')
 
 		mask_target1 = (df['TARGET'] == 1)
 		mask_target0 = (df['TARGET'] == 0)
