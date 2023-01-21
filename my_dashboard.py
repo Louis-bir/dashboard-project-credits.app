@@ -30,8 +30,7 @@ def load_data_brute():
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
-#df = load_data_brute()
-df = pd.read_csv("df_brute.csv")
+df = load_data_brute()
 
 @st.cache
 def load_data():
@@ -39,13 +38,12 @@ def load_data():
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
-#df_train_imputed = load_data()
-df_train_imputed = pd.read_csv("df_dashboard2.csv")
+df_train_imputed = load_data()
 df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) for x in df_train_imputed.columns]
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
 
-with open('./dummy.pkl', 'rb') as file : model_train = pickle.load(file)
+with open('./Model_store/dummy.pkl', 'rb') as file : model_train = pickle.load(file)
 
 ##################### Initiate DASHBOARD #########################################
 
