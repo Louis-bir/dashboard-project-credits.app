@@ -26,7 +26,7 @@ st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un cli
 # Loading data.
 @st.cache
 def load_data_brute():
-	url = "https://github.com/Louis-bir/dashboard-project-credits.app/blob/master/Data_sources/df_brute.csv"
+	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/df_brute.csv"
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
@@ -34,7 +34,7 @@ df = load_data_brute()
 
 @st.cache
 def load_data():
-	url = "https://github.com/Louis-bir/dashboard-project-credits.app/blob/master/Data_sources/df_dashboard2.csv"
+	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/df_dashboard2.csv"
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
