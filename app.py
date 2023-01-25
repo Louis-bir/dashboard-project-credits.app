@@ -87,7 +87,7 @@ if id_client != 0:
 		client_to_predict = df_train_imputed[mask_id].iloc[:,:-1]
 		prediction = model_train.predict_proba(client_to_predict)[:,1][0].round(2)
 
-		st.subheader('Seuil de défaillance retenu : 0.23')
+		st.subheader('Seuil de défaillance retenu : 0.18')
 		st.subheader('Probabilité de défaillance : {}'.format(prediction))
 
 		# Graph Income/Credit & Days Employed.

@@ -2,9 +2,8 @@
 
 Ce dashboard est la conclusion de mon Projet : **Implémentation d'un modèle de scoring**
 
-J'ai déployé ce dashboard intéractif via **Heroku** et utilisé **Streamlit**.
+J'ai déployé ce dashboard intéractif via **Docker** sur **Google Cloud Platform** et utilisé **Streamlit**.
 Vous trouverez dans ce repository le script Python associé.
-
 
 Pour tester ce **dashboard** sur différents profils client vous pouvez utiliser les ID_clients suivant :
 
@@ -13,9 +12,6 @@ Pour tester ce **dashboard** sur différents profils client vous pouvez utiliser
 
  ## Dashboard :
  
- https://dashboard-credits-app.herokuapp.com/
+https://dashboard-credits-ud5gnwagpa-od.a.run.app
 
-# Required Files
-1 setup.sh
-2 Procfile
-3 requirements.txt
+
