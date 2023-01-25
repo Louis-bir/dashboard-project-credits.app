@@ -8,8 +8,8 @@ Vous trouverez dans ce repository le script Python associé.
 
 Pour tester ce **dashboard** sur différents profils client vous pouvez utiliser les ID_clients suivant :
 
-**Client défaillant :** 100002 / 100540 / 455290 / 104407 / 108770  
-**Client Non défaillant :** 100019 / 456241 / 456197 / 100179 / 100196  
+**Client défaillant :** 118075 / 112837 / 201563  
+**Client Non défaillant :** 104694 / 144542 / 135441 / 204803
 
  ## Dashboard :
  
