@@ -26,7 +26,7 @@ st.markdown("Ce dashboard expose la probabilité de défaut de paiement d'un cli
 # Loading data.
 @st.cache
 def load_data_brute():
-	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/df_brute.csv"
+	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/raw_data.csv"
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
@@ -34,16 +34,17 @@ df = load_data_brute()
 
 @st.cache
 def load_data():
-	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/df_dashboard2.csv"
+	url = "https://github.com/Louis-bir/dashboard-project-credits.app/raw/master/Data_sources/preprocessed_data.csv"
 	data = pd.read_csv(url, error_bad_lines=False)
 	return data
 
 df_train_imputed = load_data()
+
 df_train_imputed.columns = ["".join (c if c.isalnum() else "_" for c in str(x)) for x in df_train_imputed.columns]
 
 ##################### IMPORTATION DU MODELE PREENTRAINE (LGBM) ###################
 
-with open('./Model_store/dummy.pkl', 'rb') as file : model_train = pickle.load(file)
+with open('./Model_store/RF.pkl', 'rb') as file : model_train = pickle.load(file)
 
 ##################### Initiate DASHBOARD #########################################
 
@@ -83,7 +84,7 @@ if id_client != 0:
 
 		# Predict.
 		mask_id = (df_train_imputed['SK_ID_CURR'] == int(id_client))
-		client_to_predict = df_train_imputed[mask_id].iloc[:,2:]
+		client_to_predict = df_train_imputed[mask_id].iloc[:,:-1]
 		prediction = model_train.predict_proba(client_to_predict)[:,1][0].round(2)
 
 		st.subheader('Seuil de défaillance retenu : 0.23')
@@ -150,9 +151,9 @@ if id_client != 0:
 
 		# Figure Source 1 
 		fig1 = ff.create_distplot(data_source1, group_labels, 
-								show_hist=False, 
-								colors=colors,
-								show_rug=False)
+								  show_hist=False, 
+								  colors=colors,
+								  show_rug=False)
 
 		fig1.add_trace(go.Scatter(x=[np.array(df_id_client['EXT_SOURCE_1'])[0], np.array(df_id_client['EXT_SOURCE_1'])[0]], 
 								y=[-0.5, 2.5], mode="lines", name='Client', line=go.scatter.Line(color="red")))
